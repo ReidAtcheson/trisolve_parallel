@@ -21,7 +21,7 @@ int main(int arg,char** argv){
   char uplo='U';
   char trans='N';
   char unit='N';
-  int N=10000;
+  int N=16000;
   int lda=N;
   int incx=1;
   std::vector<float> A(N*N,0.0);
@@ -38,7 +38,10 @@ int main(int arg,char** argv){
   steady_clock::time_point stop = steady_clock::now();
   duration<double> tspan=duration_cast<duration<double>>(stop-start);
   check_soln(N,&x[0]);
+
+  int64_t nbytes=((int64_t(N)*(int64_t(N)+1))/2)*sizeof(float)+2*N*sizeof(float);
   std::cout<<"Time to compute triangular solve: "<<(tspan.count())<<std::endl;
+  std::cout<<"Effective bandwidth "<<nbytes/(1024.0*1024.0*1024.0*(tspan.count()))<<std::endl;
 
 
 }
